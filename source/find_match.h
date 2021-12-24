@@ -4,14 +4,14 @@
 #include <iostream>
 #include <cstring>
 
-const uint32_t p = 1000;
+const uint32_t p = 999;
 const uint32_t M = 10000;
 
 uint32_t add(uint32_t a, uint32_t b) {
     return (a + b) % M;
 }
 uint32_t sub(uint32_t a, uint32_t b) {
-    return (a - b) % M;
+    return (M + a - b) % M;
 }
 uint32_t mul(uint32_t a, uint32_t b) {
     return (a * b) % M;
