@@ -4,20 +4,20 @@
 #include <iostream>
 #include <cstring>
 
-const int p = 1000;
-const int M = 10000;
+const uint32_t p = 1000;
+const uint32_t M = 10000;
 
-int add(int a, int b) {
+uint32_t add(uint32_t a, uint32_t b) {
     return (a + b) % M;
 }
-int sub(int a, int b) {
+uint32_t sub(uint32_t a, uint32_t b) {
     return (a - b) % M;
 }
-int mul(int a, int b) {
+uint32_t mul(uint32_t a, uint32_t b) {
     return (a * b) % M;
 }
-int pow(int a, int n) {
-    int res = 1;
+uint32_t pow(uint32_t a, uint32_t n) {
+    uint32_t res = 1;
     while (n) {
         if (n & 1)
             res = mul(res, a);
@@ -29,25 +29,28 @@ int pow(int a, int n) {
 
 void find_match(const char* pattern, const char* text, std::ostream& out = std::cout) {
 
-    const int pattern_len = strlen(pattern);
-    const int text_len = strlen(text);
+    const uint32_t pattern_len = strlen(pattern);
+    const uint32_t text_len = strlen(text);
 
-    const int p_n = pow(p, pattern_len - 1);
+    if (pattern_len == 0 || pattern_len > text_len)
+        return;
 
-    int pattern_h = 0;
+    const uint32_t p_n = pow(p, pattern_len - 1);
 
-    for (int i = 0; i < pattern_len; ++i)
+    uint32_t pattern_h = 0;
+
+    for (uint32_t i = 0; i < pattern_len; ++i)
         pattern_h = add(mul(pattern_h, p), pattern[i]);
 
-    int cur_h = 0;
+    uint32_t cur_h = 0;
 
-    for (int i = 0; i < pattern_len; ++i)
+    for (uint32_t i = 0; i < pattern_len; ++i)
         cur_h = add(mul(cur_h, p), text[i]);
 
-    for (int i = 0; i < text_len - pattern_len + 1; ++i) {
+    for (uint32_t i = 0; i < text_len - pattern_len + 1; ++i) {
         if (cur_h == pattern_h) {
             bool eq = true;
-            for (int j = i; j < i + pattern_len; ++j) {
+            for (uint32_t j = i; j < i + pattern_len; ++j) {
                 if (pattern[j-i] != text[j]) {
                     eq = false;
                     break;
